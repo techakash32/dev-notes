@@ -1,0 +1,4 @@
+Dev Note - 2026-03-26T18:02:39.830Z
+========================================
+
+I spent the day learning about data science pipelines and how to design them effectively for my projects. I realized that a well-structured pipeline is crucial for efficient data processing and model training, and it's something I've been neglecting in my previous work. I've been reading about the different stages of a pipeline, from data ingestion to model deployment, and I'm excited to start implementing these concepts in my own projects. I've also been exploring different tools and libraries that can help me build and manage my pipelines, and I'm looking forward to experimenting with them. One thing I'm still struggling with is how to handle data versioning and tracking changes in my pipeline, but I'm hopeful that I'll figure it out soon. Overall, I feel like I've made some good progress in understanding data science pipelines and I'm eager to continue learning more.
