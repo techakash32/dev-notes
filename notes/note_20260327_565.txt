@@ -1,0 +1,4 @@
+Dev Note - 2026-03-27T15:34:41.389Z
+========================================
+
+I spent the day learning about data science pipelines and how they can be used to streamline my workflow. I realized that having a well-defined pipeline is crucial for any data science project, as it helps to ensure that the data is properly cleaned, transformed, and fed into the model. I experimented with creating a simple pipeline using Python, and was surprised by how much more efficient it made my workflow. I'm excited to start applying this to my current project, as I think it will really help to improve the accuracy of my model. I also discovered that there are many open-source tools available that can help with pipeline creation, which I'm looking forward to exploring further. Overall, I feel like I've gained a much better understanding of how to structure my data science projects.
