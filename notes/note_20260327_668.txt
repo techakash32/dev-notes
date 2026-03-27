@@ -1,0 +1,4 @@
+Dev Note - 2026-03-27T18:30:22.397Z
+========================================
+
+Today I spent some time learning about data science pipelines and how they can be used to streamline my workflow. I found it really interesting to see how I can automate tasks such as data ingestion, processing, and modeling to make my projects more efficient. I've been working on a project that involves a lot of manual data cleaning and preprocessing, so I'm excited to apply some of these concepts to it. I'm planning to use Apache Airflow to create and manage my pipeline, as it seems like a powerful and flexible tool. I'm still in the process of learning about the different components and how they interact, but I can already see the potential benefits of using a pipeline. I'm looking forward to experimenting with it more and seeing how it can improve my work.
