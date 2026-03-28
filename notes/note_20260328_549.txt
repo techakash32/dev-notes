@@ -1,0 +1,208 @@
+Dev Note - 2026-03-28T18:31:01.839Z
+========================================
+
+# Day 88: ML Basics with Scikit-Learn
+## Overview
+Today, we will be diving into the basics of Machine Learning using Scikit-Learn. We will cover core concepts such as Supervised Learning, Unsupervised Learning, and Model Evaluation. By the end of this note, you will have a solid understanding of how to implement basic Machine Learning algorithms using Scikit-Learn.
+
+## Core Concepts with Analogies
+1. **Supervised Learning**: Imagine you are trying to teach a child to recognize different animals. You show them pictures of cats and dogs, and tell them which is which. After a while, they can recognize new pictures of cats and dogs on their own. This is similar to Supervised Learning, where we provide labeled data to the model, and it learns to make predictions based on that data.
+2. **Unsupervised Learning**: Imagine you have a bunch of toys, and you want to group them by type (e.g. blocks, dolls, cars). You don't need anyone to tell you which toys belong together, you can figure it out on your own. This is similar to Unsupervised Learning, where the model finds patterns in the data without any labeled examples.
+3. **Model Evaluation**: Imagine you are trying to choose the best pizza place in town. You try a few different places, and evaluate them based on factors like taste, price, and service. This is similar to Model Evaluation, where we evaluate the performance of our model based on factors like accuracy, precision, and recall.
+
+## Python Programs
+### Program 1: Supervised Learning with Linear Regression
+```python
+# Import necessary libraries
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn import metrics
+import numpy as np
+
+# Generate some sample data
+np.random.seed(0)
+X = np.random.rand(100, 1)
+y = 3 * X + 2 + np.random.randn(100, 1)
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Create a Linear Regression model
+model = LinearRegression()
+
+# Train the model
+model.fit(X_train, y_train)
+
+# Make predictions
+y_pred = model.predict(X_test)
+
+# Evaluate the model
+print('Mean Absolute Error:', metrics.mean_absolute_error(y_test, y_pred))
+print('Mean Squared Error:', metrics.mean_squared_error(y_test, y_pred))
+print('Root Mean Squared Error:', np.sqrt(metrics.mean_squared_error(y_test, y_pred)))
+```
+
+### Program 2: Unsupervised Learning with K-Means Clustering
+```python
+# Import necessary libraries
+from sklearn.cluster import KMeans
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Generate some sample data
+np.random.seed(0)
+X = np.random.rand(100, 2)
+
+# Create a K-Means model
+model = KMeans(n_clusters=5)
+
+# Fit the model
+model.fit(X)
+
+# Predict the cluster labels
+labels = model.predict(X)
+
+# Plot the clusters
+plt.scatter(X[:, 0], X[:, 1], c=labels)
+plt.show()
+```
+
+### Program 3: Model Evaluation with Cross-Validation
+```python
+# Import necessary libraries
+from sklearn.model_selection import cross_val_score
+from sklearn.linear_model import LogisticRegression
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+
+# Load the iris dataset
+iris = load_iris()
+X = iris.data
+y = iris.target
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Create a Logistic Regression model
+model = LogisticRegression()
+
+# Perform cross-validation
+scores = cross_val_score(model, X_train, y_train, cv=5)
+
+# Print the average score
+print('Average Cross-Validation Score:', scores.mean())
+```
+
+## Common Mistakes
+### Mistake 1: Not Splitting the Data into Training and Testing Sets
+Wrong code:
+```python
+from sklearn.linear_model import LinearRegression
+import numpy as np
+
+# Generate some sample data
+X = np.random.rand(100, 1)
+y = 3 * X + 2 + np.random.randn(100, 1)
+
+# Create a Linear Regression model
+model = LinearRegression()
+
+# Train the model
+model.fit(X, y)
+
+# Make predictions
+y_pred = model.predict(X)
+```
+Correct code:
+```python
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+import numpy as np
+
+# Generate some sample data
+X = np.random.rand(100, 1)
+y = 3 * X + 2 + np.random.randn(100, 1)
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Create a Linear Regression model
+model = LinearRegression()
+
+# Train the model
+model.fit(X_train, y_train)
+
+# Make predictions
+y_pred = model.predict(X_test)
+```
+
+### Mistake 2: Not Evaluating the Model
+Wrong code:
+```python
+from sklearn.linear_model import LinearRegression
+import numpy as np
+
+# Generate some sample data
+X = np.random.rand(100, 1)
+y = 3 * X + 2 + np.random.randn(100, 1)
+
+# Create a Linear Regression model
+model = LinearRegression()
+
+# Train the model
+model.fit(X, y)
+
+# Make predictions
+y_pred = model.predict(X)
+```
+Correct code:
+```python
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn import metrics
+import numpy as np
+
+# Generate some sample data
+X = np.random.rand(100, 1)
+y = 3 * X + 2 + np.random.randn(100, 1)
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Create a Linear Regression model
+model = LinearRegression()
+
+# Train the model
+model.fit(X_train, y_train)
+
+# Make predictions
+y_pred = model.predict(X_test)
+
+# Evaluate the model
+print('Mean Absolute Error:', metrics.mean_absolute_error(y_test, y_pred))
+print('Mean Squared Error:', metrics.mean_squared_error(y_test, y_pred))
+print('Root Mean Squared Error:', np.sqrt(metrics.mean_squared_error(y_test, y_pred)))
+```
+
+## Practice Problems
+1. **Easy**: Implement a Linear Regression model using Scikit-Learn to predict house prices based on the number of bedrooms.
+2. **Medium**: Implement a K-Means Clustering model using Scikit-Learn to cluster customers based on their purchase history.
+3. **Hard**: Implement a Logistic Regression model using Scikit-Learn to predict whether a customer will buy a product based on their demographics and purchase history.
+4. **Challenge**: Implement a Decision Tree Classifier using Scikit-Learn to predict whether a customer will churn based on their usage patterns.
+
+## Quick Reference Table
+| Algorithm | Description | Use Case |
+| --- | --- | --- |
+| Linear Regression | Predicts a continuous value based on one or more features | Predicting house prices |
+| K-Means Clustering | Clusters data points into groups based on similarity | Customer segmentation |
+| Logistic Regression | Predicts a binary outcome based on one or more features | Predicting customer churn |
+| Decision Tree Classifier | Predicts a categorical outcome based on one or more features | Predicting customer churn |
+
+## Checklist and What's Next
+* Implement a Linear Regression model using Scikit-Learn
+* Implement a K-Means Clustering model using Scikit-Learn
+* Implement a Logistic Regression model using Scikit-Learn
+* Implement a Decision Tree Classifier using Scikit-Learn
+* Evaluate the performance of each model using metrics such as accuracy, precision, and recall
+* Tune the hyperparameters of each model to improve performance
+* Next topic: Intermediate Machine Learning with Scikit-Learn (pipelines, XGBoost)
