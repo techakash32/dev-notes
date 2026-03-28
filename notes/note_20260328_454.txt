@@ -1,0 +1,169 @@
+Dev Note - 2026-03-28T11:31:26.404Z
+========================================
+
+# Day 151 Learning Note: Deep Learning Introduction
+## Overview
+Deep learning is a subset of machine learning that involves the use of artificial neural networks to analyze and interpret data. These networks are designed to mimic the human brain's ability to learn and adapt, allowing them to be highly effective in tasks such as image recognition, natural language processing, and decision making.
+
+## Core Concepts with Analogies
+1. **Artificial Neural Networks (ANNs)**: ANNs can be thought of as a series of layers, similar to a multi-layered cake. Each layer is responsible for processing the input data in a specific way, and the output from one layer is fed into the next layer. This process continues until the final layer produces the desired output.
+2. **Convolutional Neural Networks (CNNs)**: CNNs can be thought of as a scanner that moves over an image, examining small sections at a time. As the scanner moves, it applies filters to the image data, allowing it to detect specific features such as edges or shapes.
+3. **Recurrent Neural Networks (RNNs)**: RNNs can be thought of as a person trying to understand a story. As the person hears each word, they use the context of the previous words to help them understand the current word. RNNs work in a similar way, using the output from previous time steps to inform their decisions at the current time step.
+
+## Full Python Programs
+### Program 1: Simple Neural Network with Keras
+```python
+# Import necessary libraries
+import numpy as np
+from keras.models import Sequential
+from keras.layers import Dense
+
+# Generate some random data
+np.random.seed(0)
+X = np.random.rand(100, 10)
+y = np.random.rand(100)
+
+# Create the model
+model = Sequential()
+model.add(Dense(64, activation='relu', input_shape=(10,)))
+model.add(Dense(1))
+
+# Compile the model
+model.compile(optimizer='adam', loss='mean_squared_error')
+
+# Train the model
+model.fit(X, y, epochs=10)
+
+# Make a prediction
+prediction = model.predict(X[0].reshape(1, -1))
+print(prediction)
+```
+
+### Program 2: Convolutional Neural Network with TensorFlow
+```python
+# Import necessary libraries
+import tensorflow as tf
+from tensorflow import keras
+from sklearn.model_selection import train_test_split
+from sklearn.datasets import load_digits
+import matplotlib.pyplot as plt
+
+# Load the digits dataset
+digits = load_digits()
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(digits.data, digits.target, test_size=0.2)
+
+# Reshape the data to fit the CNN
+X_train = X_train.reshape(-1, 8, 8, 1)
+X_test = X_test.reshape(-1, 8, 8, 1)
+
+# Create the model
+model = tf.keras.models.Sequential([
+    tf.keras.layers.Conv2D(32, (3, 3), activation='relu', input_shape=(8, 8, 1)),
+    tf.keras.layers.MaxPooling2D((2, 2)),
+    tf.keras.layers.Flatten(),
+    tf.keras.layers.Dense(64, activation='relu'),
+    tf.keras.layers.Dense(10, activation='softmax')
+])
+
+# Compile the model
+model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+
+# Train the model
+model.fit(X_train, y_train, epochs=10)
+
+# Evaluate the model
+test_loss, test_acc = model.evaluate(X_test, y_test)
+print('Test accuracy:', test_acc)
+```
+
+### Program 3: Recurrent Neural Network with PyTorch
+```python
+# Import necessary libraries
+import torch
+import torch.nn as nn
+import torch.optim as optim
+from torch.utils.data import Dataset, DataLoader
+import numpy as np
+
+# Create a simple dataset class
+class MyDataset(Dataset):
+    def __init__(self, X, y):
+        self.X = X
+        self.y = y
+
+    def __len__(self):
+        return len(self.X)
+
+    def __getitem__(self, idx):
+        return self.X[idx], self.y[idx]
+
+# Generate some random data
+np.random.seed(0)
+X = np.random.rand(100, 10)
+y = np.random.rand(100)
+
+# Create the dataset and data loader
+dataset = MyDataset(X, y)
+data_loader = DataLoader(dataset, batch_size=10, shuffle=True)
+
+# Create the model
+class MyModel(nn.Module):
+    def __init__(self):
+        super(MyModel, self).__init__()
+        self.rnn = nn.RNN(10, 20, num_layers=1, batch_first=True)
+        self.fc = nn.Linear(20, 1)
+
+    def forward(self, x):
+        h0 = torch.zeros(1, x.size(0), 20).to(x.device)
+        out, _ = self.rnn(x, h0)
+        out = self.fc(out[:, -1, :])
+        return out
+
+model = MyModel()
+
+# Compile the model
+criterion = nn.MSELoss()
+optimizer = optim.Adam(model.parameters(), lr=0.001)
+
+# Train the model
+for epoch in range(10):
+    for x, y in data_loader:
+        x = x.float()
+        y = y.float()
+        optimizer.zero_grad()
+        outputs = model(x)
+        loss = criterion(outputs, y.view(-1, 1))
+        loss.backward()
+        optimizer.step()
+    print('Epoch {}: Loss = {:.4f}'.format(epoch+1, loss.item()))
+```
+
+## Common Mistakes
+1. **Incorrect input shape**: When using a CNN, it's common to forget to reshape the input data to the correct shape. For example, if the input data is an image, it should be reshaped to `(height, width, channels)`.
+    * Wrong code: `X = X.reshape(-1, 28*28)`
+    * Correct code: `X = X.reshape(-1, 28, 28, 1)`
+2. **Insufficient training data**: Deep learning models require a large amount of training data to learn effectively. If the training dataset is too small, the model may not generalize well to new data.
+    * Wrong code: `model.fit(X_train, y_train, epochs=10)`
+    * Correct code: `model.fit(X_train, y_train, epochs=10, batch_size=32, validation_data=(X_test, y_test))`
+
+## Practice Problems
+1. **Easy**: Implement a simple neural network using Keras to classify handwritten digits (MNIST dataset).
+2. **Medium**: Use a CNN to classify images into different categories (e.g. dogs, cats, cars, etc.).
+3. **Hard**: Implement a RNN to predict the next word in a sentence given the previous words.
+4. **Challenge**: Use a deep learning model to classify audio signals into different categories (e.g. music, speech, noise, etc.).
+
+## Quick Reference Table
+| Model | Input Shape | Output Shape | Loss Function | Optimizer |
+| --- | --- | --- | --- | --- |
+| ANN | `(n, m)` | `(n, k)` | `mean_squared_error` | `adam` |
+| CNN | `(n, h, w, c)` | `(n, k)` | `sparse_categorical_crossentropy` | `adam` |
+| RNN | `(n, t, m)` | `(n, k)` | `mean_squared_error` | `adam` |
+
+## Checklist and What's Next
+* Understand the basics of deep learning models (ANNs, CNNs, RNNs)
+* Implement simple deep learning models using popular libraries (Keras, TensorFlow, PyTorch)
+* Practice using deep learning models to solve real-world problems
+* Learn about more advanced deep learning concepts (e.g. transfer learning, attention mechanisms, generative models)
+* Apply deep learning techniques to a project or competition (e.g. Kaggle, ImageNet)
