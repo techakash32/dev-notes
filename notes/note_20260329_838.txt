@@ -1,0 +1,135 @@
+Dev Note - 2026-03-29T18:31:00.470Z
+========================================
+
+# Overview
+Today is day 91 of our learning journey, which falls under the category of ML intermediate (pipelines, XGBoost). We will be diving into the world of machine learning pipelines and exploring how to use XGBoost to improve our model's performance. 
+
+## Core Concepts and Analogies
+
+1. **Pipelines**: A pipeline in machine learning is like a factory assembly line. Just as an assembly line has different stations for different tasks, a pipeline has different stages for data preprocessing, feature selection, and model training. This helps to streamline the workflow and improve efficiency.
+2. **XGBoost**: XGBoost is like a high-performance sports car. Just as a sports car has advanced features like turbocharging and aerodynamics to improve its speed and agility, XGBoost has advanced features like gradient boosting and regularization to improve its performance and prevent overfitting.
+3. **Hyperparameter Tuning**: Hyperparameter tuning is like fine-tuning a musical instrument. Just as a musician needs to adjust the strings and tuning pegs to get the perfect sound, a data scientist needs to adjust the hyperparameters of a model to get the best performance.
+
+## Python Programs
+
+### Program 1: Pipeline with Data Preprocessing
+```python
+# Import necessary libraries
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+
+# Load the iris dataset
+iris = load_iris()
+X = iris.data
+y = iris.target
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Create a pipeline with data preprocessing and logistic regression
+pipeline = Pipeline([
+    ('scaler', StandardScaler()),
+    ('classifier', LogisticRegression())
+])
+
+# Train the pipeline
+pipeline.fit(X_train, y_train)
+
+# Evaluate the pipeline
+print("Accuracy:", pipeline.score(X_test, y_test))
+```
+
+### Program 2: XGBoost Model
+```python
+# Import necessary libraries
+import xgboost as xgb
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+
+# Load the iris dataset
+iris = load_iris()
+X = iris.data
+y = iris.target
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Create an XGBoost model
+xgb_model = xgb.XGBClassifier()
+
+# Train the model
+xgb_model.fit(X_train, y_train)
+
+# Evaluate the model
+print("Accuracy:", xgb_model.score(X_test, y_test))
+```
+
+### Program 3: Hyperparameter Tuning with GridSearchCV
+```python
+# Import necessary libraries
+from sklearn.model_selection import GridSearchCV
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+
+# Load the iris dataset
+iris = load_iris()
+X = iris.data
+y = iris.target
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Define the hyperparameter grid
+param_grid = {
+    'n_estimators': [10, 50, 100],
+    'max_depth': [5, 10, 15]
+}
+
+# Create a random forest classifier
+rfc = RandomForestClassifier()
+
+# Perform grid search with cross-validation
+grid_search = GridSearchCV(rfc, param_grid, cv=5)
+grid_search.fit(X_train, y_train)
+
+# Print the best parameters and the corresponding score
+print("Best Parameters:", grid_search.best_params_)
+print("Best Score:", grid_search.best_score_)
+```
+
+## Common Mistakes
+
+1. **Incorrect Pipeline Creation**:
+   * Wrong: `pipeline = Pipeline([('scaler', StandardScaler), ('classifier', LogisticRegression)])`
+   * Correct: `pipeline = Pipeline([('scaler', StandardScaler()), ('classifier', LogisticRegression())])`
+   Note: The classes should be instantiated by adding parentheses.
+
+2. **Insufficient Hyperparameter Tuning**:
+   * Wrong: `param_grid = {'n_estimators': [10]}` (only one value is tested)
+   * Correct: `param_grid = {'n_estimators': [10, 50, 100]}` (multiple values are tested)
+
+## Practice Problems
+
+1. **Easy**: Create a pipeline with data preprocessing and a decision tree classifier.
+2. **Medium**: Train an XGBoost model on a dataset and evaluate its performance using cross-validation.
+3. **Hard**: Perform hyperparameter tuning on a random forest classifier using GridSearchCV and evaluate its performance on a test set.
+4. **Challenge**: Compare the performance of different machine learning models (e.g., logistic regression, decision tree, random forest, XGBoost) on a dataset and discuss the results.
+
+## Quick Reference Table
+
+| Concept | Description | Example |
+| --- | --- | --- |
+| Pipeline | Streamlines the workflow | `Pipeline([('scaler', StandardScaler()), ('classifier', LogisticRegression())])` |
+| XGBoost | Improves model performance | `xgb.XGBClassifier()` |
+| Hyperparameter Tuning | Adjusts model parameters | `GridSearchCV(rfc, param_grid, cv=5)` |
+
+## Checklist and What's Next
+
+* Understand the concept of pipelines in machine learning
+* Learn how to use XGBoost to improve model performance
+* Practice hyperparameter tuning using GridSearchCV
+* Next topic: Feature engineering and exploratory data analysis (EDA)
