@@ -1,0 +1,188 @@
+Dev Note - 2026-03-30T18:31:01.118Z
+========================================
+
+# Day 91: ML Intermediate (Pipelines, XGBoost)
+## Overview
+Today we will be discussing machine learning intermediate topics, specifically pipelines and XGBoost. Pipelines are a way to chain multiple machine learning models together to improve performance, while XGBoost is a popular gradient boosting algorithm. We will explore these concepts in depth and provide examples of how to implement them in Python.
+
+## Core Concepts with Analogies
+1. **Pipelines**: A pipeline is like a factory assembly line. Each stage of the pipeline is like a station on the assembly line, where a specific task is performed. Just as the assembly line produces a final product, a pipeline produces a final model.
+2. **XGBoost**: XGBoost is like a team of experts working together. Each expert (or decision tree) contributes its own knowledge to the team, and the final decision is made by combining the expertise of all team members.
+3. **Hyperparameter Tuning**: Hyperparameter tuning is like adjusting the settings on a camera. Just as the camera settings need to be adjusted to take the perfect photo, hyperparameters need to be tuned to get the best performance out of a machine learning model.
+
+## Full Python Programs
+### Program 1: Pipeline Example
+```python
+# Import necessary libraries
+from sklearn.pipeline import Pipeline
+from sklearn.svm import SVC
+from sklearn.decomposition import PCA
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+
+# Load iris dataset
+iris = load_iris()
+X = iris.data
+y = iris.target
+
+# Split data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Create a pipeline with PCA and SVM
+pipe = Pipeline([
+    ('pca', PCA(n_components=2)),
+    ('svm', SVC(kernel='linear'))
+])
+
+# Train the pipeline
+pipe.fit(X_train, y_train)
+
+# Evaluate the pipeline
+print("Accuracy:", pipe.score(X_test, y_test))
+```
+
+### Program 2: XGBoost Example
+```python
+# Import necessary libraries
+import xgboost as xgb
+from sklearn.datasets import load_breast_cancer
+from sklearn.model_selection import train_test_split
+
+# Load breast cancer dataset
+cancer = load_breast_cancer()
+X = cancer.data
+y = cancer.target
+
+# Split data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Train an XGBoost model
+xgb_model = xgb.XGBClassifier(objective='binary:logistic')
+xgb_model.fit(X_train, y_train)
+
+# Evaluate the model
+print("Accuracy:", xgb_model.score(X_test, y_test))
+```
+
+### Program 3: Hyperparameter Tuning Example
+```python
+# Import necessary libraries
+from sklearn.model_selection import GridSearchCV
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.datasets import load_iris
+
+# Load iris dataset
+iris = load_iris()
+X = iris.data
+y = iris.target
+
+# Define hyperparameter grid
+param_grid = {
+    'n_estimators': [10, 50, 100],
+    'max_depth': [5, 10, 15]
+}
+
+# Initialize a random forest classifier
+rf = RandomForestClassifier(random_state=42)
+
+# Perform grid search
+grid_search = GridSearchCV(estimator=rf, param_grid=param_grid, cv=5)
+grid_search.fit(X, y)
+
+# Print the best parameters and the best score
+print("Best Parameters:", grid_search.best_params_)
+print("Best Score:", grid_search.best_score_)
+```
+
+## Common Mistakes
+### Mistake 1: Not Scaling Data
+**Wrong Code**
+```python
+from sklearn.svm import SVC
+from sklearn.datasets import load_iris
+
+# Load iris dataset
+iris = load_iris()
+X = iris.data
+y = iris.target
+
+# Train an SVM model without scaling data
+svm = SVC(kernel='linear')
+svm.fit(X, y)
+```
+**Correct Code**
+```python
+from sklearn.svm import SVC
+from sklearn.datasets import load_iris
+from sklearn.preprocessing import StandardScaler
+
+# Load iris dataset
+iris = load_iris()
+X = iris.data
+y = iris.target
+
+# Scale data
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+
+# Train an SVM model with scaled data
+svm = SVC(kernel='linear')
+svm.fit(X_scaled, y)
+```
+
+### Mistake 2: Not Handling Missing Values
+**Wrong Code**
+```python
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.datasets import load_breast_cancer
+
+# Load breast cancer dataset
+cancer = load_breast_cancer()
+X = cancer.data
+y = cancer.target
+
+# Train a random forest model without handling missing values
+rf = RandomForestClassifier()
+rf.fit(X, y)
+```
+**Correct Code**
+```python
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.datasets import load_breast_cancer
+from sklearn.impute import SimpleImputer
+
+# Load breast cancer dataset
+cancer = load_breast_cancer()
+X = cancer.data
+y = cancer.target
+
+# Handle missing values
+imputer = SimpleImputer(strategy='mean')
+X_imputed = imputer.fit_transform(X)
+
+# Train a random forest model with handled missing values
+rf = RandomForestClassifier()
+rf.fit(X_imputed, y)
+```
+
+## Practice Problems
+1. Implement a pipeline with PCA and logistic regression to classify the iris dataset.
+2. Train an XGBoost model to classify the breast cancer dataset and evaluate its performance.
+3. Perform hyperparameter tuning for a random forest classifier on the iris dataset using grid search.
+4. Implement a pipeline with standard scaling and a support vector machine to classify the wine dataset.
+
+## Quick Reference Table
+| Concept | Description | Example |
+| --- | --- | --- |
+| Pipeline | Chain of models | PCA -> SVM |
+| XGBoost | Gradient boosting algorithm | XGBoostClassifier |
+| Hyperparameter Tuning | Adjusting model parameters | GridSearchCV |
+
+## Checklist
+- [ ] Implement a pipeline with PCA and logistic regression
+- [ ] Train an XGBoost model to classify a dataset
+- [ ] Perform hyperparameter tuning using grid search
+- [ ] Implement a pipeline with standard scaling and a support vector machine
+
+## What's Next
+Tomorrow we will be discussing more advanced topics in machine learning, including ensemble methods and feature engineering. We will explore these concepts in depth and provide examples of how to implement them in Python.
